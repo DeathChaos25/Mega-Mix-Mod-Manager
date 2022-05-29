@@ -269,7 +269,7 @@ namespace Mega_Mix_Mod_Manager
                     PB_InstallProgress.Value = 5;
                     string[] files = Files.Where(x => x.Contains("pv_db.txt")).ToArray();
                     if (files.Length > 0)
-                        pv_db.MergeMods(files, pv_db_Path, $"{TB_ModStagePath.Text}\\Merged\\rom_switch\\rom\\pv_db.txt");
+                        pv_db.MergeMods(files, pv_db_Path, $"{TB_ModStagePath.Text}\\Merged\\rom_steam_region\\rom\\pv_db.txt");
                     PB_InstallProgress.Value = 10;
                 }
                 else if (CB_pv_Merge.Text == "Deep Merge")
@@ -285,7 +285,7 @@ namespace Mega_Mix_Mod_Manager
                     PB_InstallProgress.Value = 15;
                     string[] files = Files.Where(x => x.Contains("obj_db")).ToArray();
                     if (files.Length > 0)
-                        obj_db.Merge($"{TB_DumpPath.Text}\\rom_switch\\rom\\objset\\obj_db.bin", files, $"{TB_ModStagePath.Text}\\Merged\\rom_switch\\rom\\objset\\obj_db.bin");
+                        obj_db.Merge($"{TB_DumpPath.Text}\\rom_steam_region\\rom\\objset\\obj_db.bin", files, $"{TB_ModStagePath.Text}\\Merged\\rom_steam_region\\rom\\objset\\obj_db.bin");
                     PB_InstallProgress.Value = 20;
                 }
                 if (CB_tex_Merge.SelectedIndex > 0)
@@ -293,7 +293,7 @@ namespace Mega_Mix_Mod_Manager
                     PB_InstallProgress.Value = 25;
                     string[] files = Files.Where(x => x.Contains("tex_db")).ToArray();
                     if (files.Length > 0)
-                        tex_db.Merge($"{TB_DumpPath.Text}\\rom_switch\\rom\\objset\\tex_db.bin", files, $"{TB_ModStagePath.Text}\\Merged\\rom_switch\\rom\\objset\\tex_db.bin");
+                        tex_db.Merge($"{TB_DumpPath.Text}\\rom_steam_region\\rom\\objset\\tex_db.bin", files, $"{TB_ModStagePath.Text}\\Merged\\rom_steam_region\\rom\\objset\\tex_db.bin");
                     PB_InstallProgress.Value = 30;
                 }
                 if (CB_spr_Merge.SelectedIndex > 0)
@@ -406,9 +406,9 @@ namespace Mega_Mix_Mod_Manager
         {
             if (TB_Export == null || TB_Export.Text.Length == 0)
                 return;
-            if (Directory.Exists($"{TB_Export.Text}\\romfs"))
-                Directory.Delete($"{TB_Export.Text}\\romfs", true);
-            Directory.CreateDirectory($"{TB_Export.Text}\\romfs");
+            if (Directory.Exists($"{TB_Export.Text}\\rom"))
+                Directory.Delete($"{TB_Export.Text}\\rom", true);
+            Directory.CreateDirectory($"{TB_Export.Text}\\rom");
             PB_InstallProgress.Visible = true;
             PB_InstallProgress.Value = 0;
             if (CB_MergeWhen.SelectedIndex == 0 || CB_MergeWhen.SelectedIndex == 2)
@@ -426,10 +426,10 @@ namespace Mega_Mix_Mod_Manager
                         continue;
 
                     string outfile = file.Replace($"{TB_ModStagePath.Text}\\{node.Name}", "");
-                    outfile = Regex.Replace(outfile, "romfs", "", RegexOptions.IgnoreCase).Replace("\\\\", "\\");
-                    if (!Directory.Exists(Path.GetDirectoryName($"{TB_Export.Text}\\romfs\\{outfile}")))
-                        Directory.CreateDirectory(Path.GetDirectoryName($"{TB_Export.Text}\\romfs\\{outfile}"));
-                    File.Copy(file, $"{TB_Export.Text}\\romfs\\{outfile}", true);
+                    outfile = Regex.Replace(outfile, "rom", "", RegexOptions.IgnoreCase).Replace("\\\\", "\\");
+                    if (!Directory.Exists(Path.GetDirectoryName($"{outfile}")))
+                        Directory.CreateDirectory(Path.GetDirectoryName($"{outfile}"));
+                    File.Copy(file, $"{outfile}", true);
                 }
             }
             
@@ -443,9 +443,9 @@ namespace Mega_Mix_Mod_Manager
                         continue;
 
                     string outfile = file.Replace($"{TB_ModStagePath.Text}\\Merged", "");
-                    if (!Directory.Exists(Path.GetDirectoryName($"{TB_Export.Text}\\romfs\\{outfile}")))
-                        Directory.CreateDirectory(Path.GetDirectoryName($"{TB_Export.Text}\\romfs\\{outfile}"));
-                    File.Copy(file, $"{TB_Export.Text}\\romfs\\{outfile}", true);
+                    if (!Directory.Exists(Path.GetDirectoryName($"{outfile}")))
+                        Directory.CreateDirectory(Path.GetDirectoryName($"{outfile}"));
+                    File.Copy(file, $"{outfile}", true);
                 }
                 PB_InstallProgress.Value = 75;
 
@@ -453,7 +453,7 @@ namespace Mega_Mix_Mod_Manager
                 mergedFiles = Directory.GetDirectories($"{TB_ModStagePath.Text}\\Merged", "*.farc", SearchOption.AllDirectories);
                 foreach (string file in mergedFiles)
                 {
-                    farc.PackFarc(file, $"{TB_ModStagePath.Text}\\Merged", $"{TB_Export.Text}\\romfs");
+                    farc.PackFarc(file, $"{TB_ModStagePath.Text}\\Merged", $"{TB_Export.Text}");
                 }
                 PB_InstallProgress.Value = 85;
             }
@@ -584,7 +584,7 @@ namespace Mega_Mix_Mod_Manager
                     }
 
                     TB_Export.Text = cofd.FileName;
-                    if (TB_Export.Text.EndsWith("romfs"))
+                    if (TB_Export.Text.EndsWith("rom"))
                         TB_Export.Text = TB_Export.Text.Remove(TB_Export.Text.Length - 6, 6);
                 }
             }
@@ -649,11 +649,6 @@ namespace Mega_Mix_Mod_Manager
             string basepath = $"{TB_DumpPath.Text}\\rom_steam_region\\rom";
             if (File.Exists($"{basepath}\\pv_db.txt"))
             {
-                //if (File.Exists($"{ TB_DumpPath.Text}\\rom_switch_en\\rom\\2d\\spr_db.bin"))
-                //    CB_Region.SelectedIndex = (int)Enums.Region.rom_switch_en;
-                //else
-                //    CB_Region.SelectedIndex = (int)Enums.Region.rom_switch;
-
                 pv_db_Path = $"{basepath}\\pv_db.txt";
                 CB_PathVarify.Checked = true;
             }
@@ -742,7 +737,7 @@ namespace Mega_Mix_Mod_Manager
                 CB_MergeWhen.SelectedIndex = (int)setting.Merge_Option;
                 CB_Region.SelectedIndex = (int)setting.region;
                 LoadVersions(setting.region, setting.Version);
-                if (TB_Export.Text.EndsWith("romfs"))
+                if (TB_Export.Text.EndsWith("rom"))
                     TB_Export.Text = TB_Export.Text.Remove(TB_Export.Text.Length - 6, 6);
             }
         }
@@ -906,7 +901,7 @@ namespace Mega_Mix_Mod_Manager
             Directory.CreateDirectory($"{TB_Export.Text}\\exefs");
             File.WriteAllLines($"{TB_Export.Text}\\exefs\\MegaMixModManager.pchtxt", pchtxt.ToArray());
             if (installedPatchList.args != null && installedPatchList.args.Length > 0)
-                File.WriteAllText($"{TB_Export.Text}\\romfs\\args.txt", installedPatchList.args);
+                File.WriteAllText($"args.txt", installedPatchList.args);
         }
 
         public void WritePatchList()

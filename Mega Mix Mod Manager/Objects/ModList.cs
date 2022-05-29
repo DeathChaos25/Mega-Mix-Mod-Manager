@@ -10,7 +10,7 @@ namespace Mega_Mix_Mod_Manager.Objects
 {
     public class ModList
     {
-        public Region region { get; set; } = Region.rom_switch_en;
+        public Region region { get; set; }
         public List<ModList_Entry> mods { get; set; } = new List<ModList_Entry>();
         public class ModList_Entry
         {

@@ -38,10 +38,8 @@ namespace Mega_Mix_Mod_Manager.Objects
 
         public static Region GetRegion(string name)
         {
-            if (name == "rom_switch" || name == "rom_switch_cn" || name == "rom_switch_tw")
+            if ( name.Contains("_jp") || name.Contains("_cn") || name.Contains("_tw") )
                 return Region.JPN;
-            if (name == "rom_switch_en")
-                return Region.ENG;
             else
                 return Region.ENG;
         }

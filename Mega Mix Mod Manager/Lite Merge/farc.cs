@@ -15,7 +15,7 @@ namespace Mega_Mix_Mod_Manager.Lite_Merge
 {
     internal class farc
     {
-        public static void Merge(string dumpPath, string[] modFiles, string outPath, Region region = Region.rom_switch_en)
+        public static void Merge(string dumpPath, string[] modFiles, string outPath, Region region)
         {
             //string[] modFiles = Directory.GetFiles(ModPath, "*.farc", SearchOption.AllDirectories);
             string[] vanillaFiles = Directory.GetFiles(dumpPath, "*.farc", SearchOption.AllDirectories);
@@ -25,9 +25,9 @@ namespace Mega_Mix_Mod_Manager.Lite_Merge
             {
                 //check if the game dump contains the modded file
                 string VanillaFile = vanillaFiles.LastOrDefault(x => x.Contains(file.Substring(file.LastIndexOf("rom"))));
-                string export = $"{outPath}\\rom_switch\\{file.Substring(file.LastIndexOf("rom"))}";
+                string export = $"{outPath}\\rom_steam_region\\{file.Substring(file.LastIndexOf("rom"))}";
                 if (export.Contains("2d") && !export.Contains(Enum.GetName(typeof(Region), region)))
-                    export = export.Replace("rom_switch", Enum.GetName(typeof(Region), region));
+                    export = export.Replace("rom_steam_region", Enum.GetName(typeof(Region), region));
                 if (File.Exists(export))
                     VanillaFile = export;
                 Dictionary<string, byte[]> ModFarcFiles = new Dictionary<string, byte[]>();
@@ -62,7 +62,7 @@ namespace Mega_Mix_Mod_Manager.Lite_Merge
                 if (vanillaFiles.Contains(VanillaFile))
                 {
                     if (VanillaFile.Contains("2d") && !export.Contains(Enum.GetName(typeof(Region), region)))
-                        export = export.Replace("rom_switch", Enum.GetName(typeof(Region), region));
+                        export = export.Replace("rom_steam_region", Enum.GetName(typeof(Region), region));
 
                     //Extract Vanilla Files from farc into memory
                     using (FileStream fs = File.OpenRead(VanillaFile))
@@ -136,7 +136,10 @@ namespace Mega_Mix_Mod_Manager.Lite_Merge
 
                 Farc.Add(Path.GetFileName(file), file);
             }
-            Farc.Save(inpath.Replace(basepath, outpath));
+            string newPath = inpath.Replace(basepath, outpath);
+            newPath = newPath.Replace("\\rom_steam_region\\rom_steam_region", "\\rom_steam_region");
+            Directory.CreateDirectory(Directory.GetParent(newPath).FullName); // create path if not exist
+            Farc.Save(newPath);
             Farc.Dispose();
         }
     }

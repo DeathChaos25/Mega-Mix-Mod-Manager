@@ -243,7 +243,7 @@ namespace Mega_Mix_Mod_Manager.GUI.Controls
                     PB_InstallProgress.Value = 5;
                     string[] files = Files.Where(x => x.Contains("pv_db.txt")).ToArray();
                     if (files.Length > 0)
-                        pv_db.MergeMods(files, $"{Global.MainSettings.Game_Dump}\\rom_steam_region\\rom\\pv_db.txt", $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam\\rom\\pv_db.txt");
+                        pv_db.MergeMods(files, $"{Global.MainSettings.Game_Dump}\\rom_steam_region\\rom\\pv_db.txt", $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam_region\\rom\\pv_db.txt");
                     PB_InstallProgress.Value = 10;
                 }
                 else if (Global.MainSettings.pv_Merge == "Deep Merge")
@@ -259,7 +259,7 @@ namespace Mega_Mix_Mod_Manager.GUI.Controls
                     PB_InstallProgress.Value = 15;
                     string[] files = Files.Where(x => x.Contains("obj_db")).ToArray();
                     if (files.Length > 0)
-                        obj_db.Merge($"{Global.MainSettings.Game_Dump}\\rom_steam\\rom\\objset\\obj_db.bin", files, $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam\\rom\\objset\\obj_db.bin");
+                        obj_db.Merge($"{Global.MainSettings.Game_Dump}\\rom_steam_region\\rom\\objset\\obj_db.bin", files, $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam_region\\rom\\objset\\obj_db.bin");
                     PB_InstallProgress.Value = 20;
                 }
                 if (Global.MainSettings.tex_Merge != "No Merge")
@@ -267,7 +267,7 @@ namespace Mega_Mix_Mod_Manager.GUI.Controls
                     PB_InstallProgress.Value = 25;
                     string[] files = Files.Where(x => x.Contains("tex_db")).ToArray();
                     if (files.Length > 0)
-                        tex_db.Merge($"{Global.MainSettings.Game_Dump}\\rom_steam\\rom\\objset\\tex_db.bin", files, $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam\\rom\\objset\\tex_db.bin");
+                        tex_db.Merge($"{Global.MainSettings.Game_Dump}\\rom_steam_region\\rom\\objset\\tex_db.bin", files, $"{Global.MainSettings.Mods_Folder}\\Merged\\rom_steam_region\\rom\\objset\\tex_db.bin");
                     PB_InstallProgress.Value = 30;
                 }
                 if (Global.MainSettings.spr_Merge != "No Merge")
@@ -400,7 +400,7 @@ namespace Mega_Mix_Mod_Manager.GUI.Controls
                         continue;
 
                     string outfile = file.Replace($"{Global.MainSettings.Mods_Folder}\\{node.Name}", "");
-                    outfile = Regex.Replace(outfile, "romfs", "", RegexOptions.IgnoreCase).Replace("\\\\", "\\");
+                    outfile = Regex.Replace(outfile, "rom", "", RegexOptions.IgnoreCase).Replace("\\\\", "\\");
                     if (!Directory.Exists(Path.GetDirectoryName($"{Global.MainSettings.Export_Path}\\{outfile}")))
                         Directory.CreateDirectory(Path.GetDirectoryName($"{Global.MainSettings.Export_Path}\\{outfile}"));
                     File.Copy(file, $"{Global.MainSettings.Export_Path}\\{outfile}", true);

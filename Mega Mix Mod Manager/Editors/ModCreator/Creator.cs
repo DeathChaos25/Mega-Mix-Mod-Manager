@@ -66,7 +66,7 @@ namespace Mega_Mix_Mod_Manager.Editors.ModCreator
             if (Path.GetFileName(infile) == "obj_db.bin")
             {
                 ObjectDatabase objdb = new ObjectDatabase();
-                ObjectDatabase basedb = obj_db.Read($"{info.DumpPath}\\rom_switch\\rom\\objset\\obj_db.bin");
+                ObjectDatabase basedb = obj_db.Read($"{info.DumpPath}\\rom_steam_region\\rom\\objset\\obj_db.bin");
                 ObjectDatabase moddb = obj_db.Read(infile);
                 objdb = obj_db.GetNewEntires(basedb, moddb, objdb);
                 database.Read(objdb);
@@ -80,7 +80,7 @@ namespace Mega_Mix_Mod_Manager.Editors.ModCreator
             else if (Path.GetFileName(infile) == "tex_db.bin")
             {
                 TextureDatabase texturedb = new TextureDatabase();
-                texturedb = tex_db.GetNewEntires(tex_db.Read($"{info.DumpPath}\\rom_switch\\rom\\objset\\tex_db.bin"), tex_db.Read(infile), texturedb);
+                texturedb = tex_db.GetNewEntires(tex_db.Read($"{info.DumpPath}\\rom_steam_region\\rom\\objset\\tex_db.bin"), tex_db.Read(infile), texturedb);
                 database.Read(texturedb);
             }
             if (database.Entries.Count > 0)

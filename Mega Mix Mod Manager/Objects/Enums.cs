@@ -9,13 +9,16 @@ namespace Mega_Mix_Mod_Manager.Enums
 {
     public enum Region
     {
+        rom_steam_region,
         rom_switch,
         rom_switch_en,
         rom_switch_cn,
         rom_switch_tw,
         rom_steam,
         rom_steam_dlc,
-        rom_steam_region_dlc
+        rom_steam_region_dlc,
+        rom_steam_region_dlc_kr,
+        rom_mod
     }
 
     public enum MergeOptions

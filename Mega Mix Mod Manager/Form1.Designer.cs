@@ -368,7 +368,9 @@
             this.CB_Region.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Region.FormattingEnabled = true;
             this.CB_Region.Items.AddRange(new object[] {
+            "rom_mod",
             "rom_steam_dlc",
+            "rom_steam_region_dlc_kr",
             "rom_switch",
             "rom_switch_en",
             "rom_switch_cn",
